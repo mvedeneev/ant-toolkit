@@ -1,0 +1,230 @@
+<project name="ant-toolkit build" default="package-all-zip" basedir=".">
+
+<!-- Adding CLASSPATH defenitions -->
+	<include file="classpath.xml"/>
+
+<!-- Resolving profile -->
+	<include file="profile-resolution.xml"/>
+
+<!-- summary targets -->
+
+	<target name="clean-all" depends="clean-general-tasks, clean-documentum-tasks, clean-sql-tasks, clean-svn-tasks">
+		<delete dir="${ant-tasks.target.dir}" quiet="true"/>
+	</target>
+
+	<target name="package-all" depends="package-general-tasks, package-documentum-tasks, package-sql-tasks, package-svn-tasks">
+		<delete dir="${ant-tasks.target.dir}" quiet="true"/>
+		<mkdir dir="${ant-tasks.target.dir}"/>
+		<delete dir="${ant-toolkit.target.dir}" quiet="true"/>
+		<mkdir dir="${ant-toolkit.target.dir}"/>
+
+		<copy todir="${ant-toolkit.target.dir}">
+			<fileset dir="${general-tasks.target.dir}"/>
+			<fileset dir="${documentum-tasks.target.dir}"/>
+			<fileset dir="${sql-tasks.target.dir}"/>
+			<fileset dir="${svn-tasks.target.dir}"/>
+		</copy>
+
+		<copy todir="${ant-tasks.target.dir}">
+			<fileset dir="${third.party.libraries.dir}"/>
+		</copy>
+	</target>
+
+	<target name="package-all-zip" depends="package-all">
+		<zip destfile="${ant-tasks.target.dir}/${ant-toolkit.zip}"
+			compress="true" whenempty="create" level="9" encoding="UTF-8"
+			useLanguageEncodingFlag="true" createUnicodeExtraFields="not-encodeable">
+
+			<fileset dir="${ant-tasks.target.dir}"/>
+		</zip>
+
+		<delete includeEmptyDirs="true" quiet="true">
+		    <fileset dir="${ant-tasks.target.dir}">
+				<exclude name="${ant-toolkit.zip}"/>
+		    </fileset>
+		</delete>
+	</target>
+
+<!-- general-tasks compilation targets -->
+
+	<target name="clean-general-tasks">
+		<delete dir="${general-tasks.target.dir}" quiet="true"/>
+		<delete dir="${general-tasks.build.dir}" quiet="true"/>
+	</target>
+
+	<target name="compile-general-tasks" depends="clean-general-tasks">
+
+		<mkdir dir="${general-tasks.build.dir}"/>
+
+		<javac executable="${compiler.executable}"
+			   fork="${compiler.fork}"
+			   debug="${compiler.debug.mode}"
+			   debuglevel="${compiler.debug.level}"
+			   encoding="${compiler.encoding}"
+			   memoryInitialSize="${compiler.memory.init.size}"
+			   memoryMaximumSize="${compiler.memory.max.size}"
+			   srcdir="${general-tasks.src.dir}/java"
+			   destdir="${general-tasks.build.dir}">
+			<classpath>
+				<path refid="apache-ant"/>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="package-general-tasks" depends="compile-general-tasks">
+		<mkdir dir="${general-tasks.target.dir}"/>
+
+		<jar destfile="${general-tasks.target.dir}/${general-tasks.jar}">
+			<fileset dir="${general-tasks.build.dir}"/>
+			<fileset dir="${general-tasks.src.dir}/resources"/>
+		</jar>
+
+		<copy file="${general-tasks.defenitions}" todir="${general-tasks.target.dir}" overwrite="true"/>
+
+		<delete dir="${general-tasks.build.dir}" quiet="true"/>
+	</target>
+
+<!-- documentum-tasks compilation targets -->
+
+	<target name="clean-documentum-tasks">
+		<delete dir="${documentum-tasks.target.dir}" quiet="true"/>
+		<delete dir="${documentum-tasks.build.dir}" quiet="true"/>
+	</target>
+
+	<target name="compile-documentum-tasks" depends="clean-documentum-tasks, package-general-tasks">
+		<mkdir dir="${documentum-tasks.build.dir}"/>
+
+		<javac executable="${compiler.executable}"
+			   fork="${compiler.fork}"
+			   debug="${compiler.debug.mode}"
+			   debuglevel="${compiler.debug.level}"
+			   encoding="${compiler.encoding}"
+			   memoryInitialSize="${compiler.memory.init.size}"
+			   memoryMaximumSize="${compiler.memory.max.size}"
+			   srcdir="${documentum-tasks.src.dir}/java"
+			   destdir="${documentum-tasks.build.dir}">
+			<classpath>
+				<path refid="documentum"/>
+				<path refid="apache-ant"/>
+				<path refid="apache-commons"/>
+				<path refid="apache-log4j"/>
+				<path refid="apache-serializer"/>
+				<path refid="apache-xalan"/>
+				<path refid="activation"/>
+				<path refid="aspectj"/>
+				<path refid="castor"/>
+				<path refid="jaxb"/>
+				<path refid="mail"/>
+				<path refid="rsa"/>
+				<path>
+					<pathelement location="${general-tasks.target.dir}/${general-tasks.jar}" />
+				</path>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="package-documentum-tasks" depends="compile-documentum-tasks">
+		<mkdir dir="${documentum-tasks.target.dir}"/>
+
+		<jar destfile="${documentum-tasks.target.dir}/${documentum-tasks.jar}">
+			<fileset dir="${documentum-tasks.build.dir}"/>
+			<fileset dir="${documentum-tasks.src.dir}/resources"/>
+		</jar>
+
+		<copy file="${documentum-tasks.defenitions}" todir="${documentum-tasks.target.dir}" overwrite="true"/>
+
+		<delete dir="${documentum-tasks.build.dir}" quiet="true"/>
+	</target>
+
+<!-- sql-tasks compilation targets -->
+
+	<target name="clean-sql-tasks">
+		<delete dir="${sql-tasks.target.dir}" quiet="true"/>
+		<delete dir="${sql-tasks.build.dir}" quiet="true"/>
+	</target>
+
+	<target name="compile-sql-tasks" depends="clean-sql-tasks, package-general-tasks">
+
+		<mkdir dir="${sql-tasks.build.dir}"/>
+
+		<javac executable="${compiler.executable}"
+			   fork="${compiler.fork}"
+			   debug="${compiler.debug.mode}"
+			   debuglevel="${compiler.debug.level}"
+			   encoding="${compiler.encoding}"
+			   memoryInitialSize="${compiler.memory.init.size}"
+			   memoryMaximumSize="${compiler.memory.max.size}"
+			   srcdir="${sql-tasks.src.dir}/java"
+			   destdir="${sql-tasks.build.dir}">
+			<classpath>
+				<path refid="apache-ant"/>
+				<path>
+					<pathelement location="${general-tasks.target.dir}/${general-tasks.jar}" />
+				</path>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="package-sql-tasks" depends="compile-sql-tasks">
+		<mkdir dir="${sql-tasks.target.dir}"/>
+
+		<jar destfile="${sql-tasks.target.dir}/${sql-tasks.jar}">
+			<fileset dir="${sql-tasks.build.dir}"/>
+			<fileset dir="${sql-tasks.src.dir}/resources"/>
+		</jar>
+
+		<copy file="${sql-tasks.defenitions}" todir="${sql-tasks.target.dir}" overwrite="true"/>
+
+		<delete dir="${sql-tasks.build.dir}" quiet="true"/>
+	</target>
+
+<!-- svn-tasks compilation targets -->
+
+	<target name="clean-svn-tasks">
+		<delete dir="${svn-tasks.target.dir}" quiet="true"/>
+		<delete dir="${svn-tasks.build.dir}" quiet="true"/>
+	</target>
+
+	<target name="compile-svn-tasks" depends="clean-svn-tasks, package-general-tasks">
+
+		<mkdir dir="${svn-tasks.build.dir}"/>
+
+		<javac executable="${compiler.executable}"
+			   fork="${compiler.fork}"
+			   debug="${compiler.debug.mode}"
+			   debuglevel="${compiler.debug.level}"
+			   encoding="${compiler.encoding}"
+			   memoryInitialSize="${compiler.memory.init.size}"
+			   memoryMaximumSize="${compiler.memory.max.size}"
+			   srcdir="${svn-tasks.src.dir}/java"
+			   destdir="${svn-tasks.build.dir}">
+			<classpath>
+				<path refid="apache-ant"/>
+				<path>
+					<pathelement location="${general-tasks.target.dir}/${general-tasks.jar}" />
+				</path>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="package-svn-tasks" depends="compile-svn-tasks">
+		<mkdir dir="${svn-tasks.target.dir}"/>
+
+		<jar destfile="${svn-tasks.target.dir}/${svn-tasks.jar}">
+			<fileset dir="${svn-tasks.build.dir}"/>
+			<fileset dir="${svn-tasks.src.dir}/resources"/>
+		</jar>
+
+		<copy file="${svn-tasks.defenitions}" todir="${svn-tasks.target.dir}" overwrite="true"/>
+		<copy file="${svn-tasks.report.stylesheet}" todir="${svn-tasks.target.dir}" overwrite="true"/>
+		<copy file="${svn-tasks.unmerged.summary.report.stylesheet}" todir="${svn-tasks.target.dir}" overwrite="true"/>
+		<copy file="${svn-tasks.unmerged.user.report.stylesheet}" todir="${svn-tasks.target.dir}" overwrite="true"/>
+
+		<delete dir="${svn-tasks.build.dir}" quiet="true"/>
+	</target>
+
+</project>

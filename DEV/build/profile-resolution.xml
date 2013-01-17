@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="profile-resolution" basedir=".">
+
+	<property environment="env"/>
+
+	<dirname property="profile-resolution.basedir" file="${ant.file.profile-resolution}"/>
+	<property name="profiles.dir" value="${profile-resolution.basedir}/profiles"/>
+
+	<condition property="profile" value="${user.name}">
+		<and>
+			<not>
+				<isset property="profile"/>
+			</not>
+			<available file="${profiles.dir}/${user.name}" type="dir"/>
+		</and>
+	</condition>
+
+	<condition property="profile" value="default">
+		<not>
+			<isset property="profile"/>
+		</not>
+	</condition>
+
+	<property name="profile.dir" value="${profile-resolution.basedir}/profiles/${profile}"/>
+
+	<echo>--- Using profile: ${profile} ---</echo>
+
+	<fail message="There are no directory for profile: ${profile}">
+		<condition>
+			<and>
+				<isset property="profile"/>
+				<not>
+					<available file="${profile.dir}" type="dir"/>
+				</not>
+			</and>
+		</condition>
+	</fail>
+
+	<fail message="There are no compiler.properties file in profile directory: ${profile.dir}">
+		<condition>
+			<not>
+				<available file="${profile.dir}/compiler.properties" type="file"/>
+			</not>
+		</condition>
+	</fail>
+
+	<property file="${profile.dir}/compiler.properties"/>
+
+	<fail message="There are no [compiler.executable] specified for profile: ${profile}">
+		<condition>
+			<not>
+				<isset property="compiler.executable"/>
+			</not>
+		</condition>
+	</fail>
+
+	<fail message="There are no java compiler available at path: ${compiler.executable}">
+		<condition>
+			<and>
+				<not>
+					<available file="${compiler.executable}" type="file"/>
+				</not>
+				<not>
+					<available file="${compiler.executable}.exe" type="file"/>
+				</not>
+			</and>
+		</condition>
+	</fail>
+
+	<echo>--- Using java compiler: ${compiler.executable} ---</echo>
+
+	<condition property="compiler.fork" value="yes">
+		<not>
+			<isset property="compiler.fork"/>
+		</not>
+	</condition>
+
+	<condition property="compiler.debug.mode" value="no">
+		<not>
+			<isset property="compiler.debug.mode"/>
+		</not>
+	</condition>
+
+	<condition property="compiler.debug.level" value="lines,vars,source">
+		<not>
+			<isset property="compiler.debug.level"/>
+		</not>
+	</condition>
+
+	<condition property="compiler.encoding" value="UTF-8">
+		<not>
+			<isset property="compiler.encoding"/>
+		</not>
+	</condition>
+
+	<condition property="compiler.memory.init.size" value="&quot;256m&quot;">
+		<not>
+			<isset property="compiler.memory.init.size"/>
+		</not>
+	</condition>
+
+	<condition property="compiler.memory.max.size" value="&quot;512m&quot;">
+		<not>
+			<isset property="compiler.memory.max.size"/>
+		</not>
+	</condition>
+
+</project>

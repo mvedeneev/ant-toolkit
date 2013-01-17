@@ -1,0 +1,6 @@
+<project name="ant-toolkit-taskdefs" basedir=".">
+	<taskdef file="../../../../../ant-tasks/general-tasks/src/main/defenitions/GeneralAntToolkitLibrary.xml"/>
+	<taskdef file="../../../../../ant-tasks/documentum-tasks/src/main/defenitions/DmAntToolkitLibrary.xml"/>
+	<taskdef file="../../../../../ant-tasks/sql-tasks/src/main/defenitions/SqlAntToolkitLibrary.xml"/>
+	<taskdef file="../../../../../ant-tasks/svn-tasks/src/main/defenitions/SvnAntToolkitLibrary.xml"/>
+</project>

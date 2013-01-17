@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<antlib>
+	<taskdef name="generalAddToInteger" classname="com.anttoolkit.general.tasks.AddToIntegerTask" />
+	<taskdef name="generalCondition" classname="com.anttoolkit.general.tasks.ConditionTask" />
+	<taskdef name="generalInitArray" classname="com.anttoolkit.general.tasks.arrays.InitArrayTask" />
+	<taskdef name="generalGetArraySize" classname="com.anttoolkit.general.tasks.arrays.GetArraySizeTask" />
+	<taskdef name="generalClearArray" classname="com.anttoolkit.general.tasks.arrays.ClearArrayTask" />
+	<taskdef name="generalGetArrayElement" classname="com.anttoolkit.general.tasks.arrays.GetArrayElementTask" />
+	<taskdef name="generalAddArrayElement" classname="com.anttoolkit.general.tasks.arrays.AddArrayElementTask" />
+	<taskdef name="generalArrayLoop" classname="com.anttoolkit.general.tasks.arrays.ArrayLoopTask" />
+	<taskdef name="generalMessageFormat" classname="com.anttoolkit.general.tasks.MessageFormatTask" />
+	<taskdef name="generalGenerateRandomInteger" classname="com.anttoolkit.general.tasks.GenerateRandomIntegerTask" />
+	<taskdef name="generalGetRandomArrayElement" classname="com.anttoolkit.general.tasks.arrays.GetRandomArrayElementTask" />
+    <taskdef name="generalForLoop" classname="com.anttoolkit.general.tasks.ForLoopTask" />
+    <taskdef name="generalTimeDifference" classname="com.anttoolkit.general.tasks.TimeDifferenceTask" />
+	<taskdef name="generalGetDirectoryFiles" classname="com.anttoolkit.general.tasks.GetDirectoryFilesTask" />
+	<taskdef name="generalStartThread" classname="com.anttoolkit.general.tasks.concurrent.ThreadTask" />
+	<taskdef name="generalWaitThread" classname="com.anttoolkit.general.tasks.concurrent.WaitThreadTask" />
+	<taskdef name="generalCreateCyclicBarrier" classname="com.anttoolkit.general.tasks.concurrent.CreateCyclicBarrierTask" />
+	<taskdef name="generalGetThreadInfo" classname="com.anttoolkit.general.tasks.concurrent.GetThreadInfoTask" />
+	<taskdef name="generalTimeStamp" classname="com.anttoolkit.general.tasks.TimeStampTask" />
+	<taskdef name="generalProperty" classname="com.anttoolkit.general.tasks.props.PropertyTask" />
+	<taskdef name="generalFileLinesLoop" classname="com.anttoolkit.general.tasks.FileLinesLoopTask" />
+	<taskdef name="generalInitMap" classname="com.anttoolkit.general.tasks.maps.InitMapTask" />
+	<taskdef name="generalGetMapSize" classname="com.anttoolkit.general.tasks.maps.InitMapTask" />
+	<taskdef name="generalClearMap" classname="com.anttoolkit.general.tasks.maps.ClearMapTask" />
+	<taskdef name="generalGetMapElement" classname="com.anttoolkit.general.tasks.maps.GetMapElementTask" />
+	<taskdef name="generalPutMapElement" classname="com.anttoolkit.general.tasks.maps.PutMapElementTask" />
+	<taskdef name="generalGetRandomMapElement" classname="com.anttoolkit.general.tasks.maps.GetRandomMapElementTask" />
+	<taskdef name="generalCheckMapContainsKey" classname="com.anttoolkit.general.tasks.maps.CheckMapContainsKeyTask" />
+	<taskdef name="generalMapLoop" classname="com.anttoolkit.general.tasks.maps.MapLoopTask" />
+	<taskdef name="generalWaitCyclicBarrier" classname="com.anttoolkit.general.tasks.concurrent.WaitCyclicBarrierTask" />
+	<taskdef name="generalSynchronizationSection" classname="com.anttoolkit.general.tasks.concurrent.SynchronizationSectionTask" />
+	<taskdef name="generalArithmeticOperation" classname="com.anttoolkit.general.tasks.math.ArithmeticOperationTask" />
+	<taskdef name="generalReplaceTextSubstring" classname="com.anttoolkit.general.tasks.ReplaceTextSubstringTask" />
+
+	<macrodef name="generalNestedPropertyResolver">
+   		<sequential>
+           <componentdef name="compoundEvaluator" classname="com.anttoolkit.general.props.NestedPropertyHelper"/>
+           <propertyhelper>
+               <compoundEvaluator/>
+           </propertyhelper>
+   		</sequential>
+   	</macrodef>
+
+    <macrodef name="generalThreadLocalPropertyResolver">
+   		<sequential>
+           <componentdef name="compoundEvaluator" classname="com.anttoolkit.general.props.ThreadLocalPropertyHelper"/>
+           <propertyhelper>
+               <compoundEvaluator/>
+           </propertyhelper>
+   		</sequential>
+   	</macrodef>
+
+    <macrodef name="generalCompoundPropertyResolver">
+   		<sequential>
+           <componentdef name="compoundEvaluator" classname="com.anttoolkit.general.props.CompoundPropertyHelper"/>
+           <propertyhelper>
+               <compoundEvaluator/>
+           </propertyhelper>
+   		</sequential>
+   	</macrodef>
+
+</antlib>

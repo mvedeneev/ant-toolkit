@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DQL batch" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+		<dmDocbaseBatch docbase="dctm" login="dmadmin" password="qwerty">
+
+			<dmApiExec file="iapi-batch.iapi"/>
+
+		</dmDocbaseBatch>
+	</target>
+
+</project>

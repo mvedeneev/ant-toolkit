@@ -1,0 +1,78 @@
+<project name="Other general test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+<!-- Time difference calculation -->
+		<tstamp>
+			<format property="startTime" pattern="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"/>
+		</tstamp>
+
+		  <echo>Start</echo>
+		  <sleep seconds="5"/>
+		  <echo>Do some work...</echo>
+		  <sleep seconds="1"/>
+		  <echo>End</echo>
+
+		  <tstamp>
+			  <format property="finishTime" pattern="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"/>
+		  </tstamp>
+
+		  <property name="differenceUnits" value="m"/>
+
+		  <generalTimeDifference time1="${startTime}" time2="${finishTime}" timeFormat="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"
+								 differenceUnits="${differenceUnits}" property="difference"/>
+
+		  <echo>Start time: ${startTime}</echo>
+		  <echo>End time: ${finishTime}</echo>
+		  <echo>Difference: ${difference}${differenceUnits}</echo>
+
+<!-- Iterating throught directory files -->
+
+		<generalGetDirectoryFiles dir="D:\Temp" recursive="true" fullNameArray="fullName" shortNameArray="shortName"
+				nameArray="name" extensionArray="extension" />
+
+		<generalArrayLoop arrayName="fullName" elementPropertyName="fileFullName" indexPropertyName="index">
+
+			<generalGetArrayElement arrayName="shortName" index="${index}" propertyName="fileShortName"/>
+			<generalGetArrayElement arrayName="name" index="${index}" propertyName="fileName"/>
+			<generalGetArrayElement arrayName="extension" index="${index}" propertyName="fileExtension"/>
+
+			<echo>ShortName=${fileShortName}, Name.Ext=${fileName}.${fileExtension}, FullName=${fileFullName}</echo>
+
+		</generalArrayLoop>
+
+<!-- Getting thread info -->
+
+		<generalGetThreadInfo threadNameProperty="threadName" threadIdProperty="threadId"/>
+
+		<echo>thread name=${threadName},  threadId=${threadId}</echo>
+
+<!-- Compound properties -->
+
+		<generalCompoundPropertyResolver/>
+
+		<property name="aaa" value="xxx"/>
+		<property name="${aaa}" value="yyy"/>
+
+		<echo>${${aaa}}</echo>
+
+<!-- Iterating throught file lines -->
+
+		<generalFileLinesLoop file="${basedir}/test_array.txt" lineTextProperty="lineText">
+			<echo>${lineText}</echo>
+		</generalFileLinesLoop>
+
+<!-- Getting random numbers -->
+
+		<generalGenerateRandomInteger min="0" max="5" propertyName="AAA"/>
+		<echo>${AAA}</echo>
+		<generalGenerateRandomInteger min="0" max="5" propertyName="AAA"/>
+		<echo>${AAA}</echo>
+		<generalGenerateRandomInteger min="0" max="5" propertyName="AAA"/>
+		<echo>${AAA}</echo>
+
+	</target>
+
+</project>

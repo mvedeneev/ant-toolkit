@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="validate" name="docbase_update">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="validate">
+		<dmBuildFileValidator file="${ant.file.docbase_update}" xPath="/project/target[@name='update']/dmDocbaseBatch/dmBuild"/>
+	</target>
+
+	<target name="start" depends="validate">
+		<echo>Docbase batch start</echo>
+	</target>
+
+	<target name="update" depends="start">
+		<dmDocbaseBatch docbase="dctm" login="dmadmin" password="qwerty">
+
+			<dmBuild number="1.0">
+				<echo>version - 1.0</echo>
+			</dmBuild>
+
+			<dmBuild number="1.1">
+				<echo>version - 1.1</echo>
+			</dmBuild>
+
+			<dmBuild number="1.2">
+				<echo>version - 1.2</echo>
+			</dmBuild>
+
+		</dmDocbaseBatch>
+	</target>
+
+	<target depends="update" name="end">
+		<echo>Docbase batch end</echo>
+	</target>
+
+</project>

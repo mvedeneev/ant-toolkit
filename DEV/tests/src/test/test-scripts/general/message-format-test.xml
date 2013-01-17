@@ -1,0 +1,13 @@
+<project name="Message format test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<generalInitArray arrayName="testArray" array="Vasia,Pupkin"/>
+		<generalMessageFormat pattern="hello {0} {1}" propertyName="testFormat" arrayName="testArray"/>
+		<echo>${testFormat}</echo>
+
+	</target>
+
+</project>

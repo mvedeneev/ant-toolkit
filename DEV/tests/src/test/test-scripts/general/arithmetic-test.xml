@@ -1,0 +1,18 @@
+<project name="Arithmetic test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<generalArithmeticOperation arg1="123" arg2="200.0" operation="+" resultProperty="result"/>
+		<echo>${result}</echo>
+		<generalArithmeticOperation arg1="123" arg2="200.0" operation="-" resultProperty="result"/>
+		<echo>${result}</echo>
+		<generalArithmeticOperation arg1="123" arg2="200.0" operation="*" resultProperty="result"/>
+		<echo>${result}</echo>
+		<generalArithmeticOperation arg1="123" arg2="200.0" operation="/" resultProperty="result"/>
+		<echo>${result}</echo>
+
+	</target>
+
+</project>

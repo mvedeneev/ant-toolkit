@@ -1,0 +1,38 @@
+<project name="SVN test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<svnGetLatestMessageRevision logFile="C:/Temp/log.xml"
+			   messagePattern="Version [0-9]+\.[0-9]+\.[0-9]+"
+			   propertyName="versionRevision"/>
+
+		<echo>${versionRevision}</echo>
+
+
+		<svnGetRevision infoFile="C:\Temp\svnInfo.xml"
+		              propertyName="myProp"/>
+
+		<echo>Revision: ${myProp}</echo>
+
+		<generalAddToInteger propertyName="myProp" argument="10"/>
+		<echo>Revision: ${myProp}</echo>
+
+		<generalAddToInteger propertyName="myProp" argument="-20"/>
+		<echo>Revision: ${myProp}</echo>
+
+		<svnLogReport logFile="C:\Temp\svnLog.xml"
+		              reportFile="C:\Temp\svnReport.html"
+		              xsltStyle="C:\Projects\AntToolkit\development\AntTasks\svnReport.xsl"/>
+
+		<svnGetDateFromToday propertyName="myProp1" />
+		<svnGetDateFromToday propertyName="myProp2" daysToAdd="1"/>
+		<svnGetDateFromToday propertyName="myProp3" daysToAdd="-2"/>
+		<echo>myProp1: ${myProp1}</echo>
+		<echo>myProp2: ${myProp2}</echo>
+		<echo>myProp3: ${myProp3}</echo>
+
+	</target>
+
+</project>

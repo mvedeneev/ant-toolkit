@@ -1,0 +1,65 @@
+<project name="bof build" default="package" basedir=".">
+
+<!-- Adding CLASSPATH defenitions -->
+	<include file="classpath.xml"/>
+
+<!-- Resolving profile -->
+	<include file="profile-resolution.xml"/>
+
+<!-- compilation targets -->
+
+	<target name="clean">
+		<delete dir="${bof.target.dir}" quiet="true"/>
+		<mkdir dir="${bof.target.dir}"/>
+		<delete dir="${bof.build.dir}" quiet="true"/>
+		<mkdir dir="${bof.build.dir}"/>
+	</target>
+
+	<target name="compile" depends="clean">
+		<javac executable="${compiler.executable}"
+			   fork="${compiler.fork}"
+			   debug="${compiler.debug.mode}"
+			   debuglevel="${compiler.debug.level}"
+			   encoding="${compiler.encoding}"
+			   memoryInitialSize="${compiler.memory.init.size}"
+			   memoryMaximumSize="${compiler.memory.max.size}"
+			   srcdir="${bof.src.dir}"
+			   destdir="${bof.build.dir}">
+			<classpath>
+				<path refid="documentum"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+
+		<jar destfile="${bof.target.dir}/${bof_interfaces.jar}">
+			<fileset dir="${bof.build.dir}">
+				<include name="bof/tbo/interfaces/*.class"/>
+				<include name="bof/library/interfaces/*.class"/>
+			</fileset>
+		</jar>
+
+		<jar destfile="${bof.target.dir}/${bof_implementation.jar}">
+			<fileset dir="${bof.build.dir}">
+				<include name="bof/tbo/implementation/*.class"/>
+			</fileset>
+		</jar>
+
+		<jar destfile="${bof.target.dir}/${lifecycle.jar}">
+			<fileset dir="${bof.build.dir}">
+				<include name="bof/SimpleModules/Lifecycle/*.class"/>
+			</fileset>
+		</jar>
+
+		<jar destfile="${bof.target.dir}/${shared_lib.jar}">
+			<fileset dir="${bof.build.dir}">
+				<include name="bof/library/implementation/*.class"/>
+			</fileset>
+		</jar>
+
+		<delete dir="${bof.build.dir}" quiet="true"/>
+
+	</target>
+
+</project>

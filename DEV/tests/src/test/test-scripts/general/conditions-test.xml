@@ -1,0 +1,37 @@
+<project name="Conditions test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<generalInitArray arrayName="testArray" file="test_array.txt"
+						  separatorPattern="\n" trimValues="true"
+						  removeEmptyValues="true" arrayLengthProperty="testArray.length"/>
+
+		<condition property="testArray.hasAnyValues"
+				   value="false"
+				   else="true">
+			<equals arg1="${testArray.length}" arg2="0"/>
+		</condition>
+
+		<generalCondition arg1="123" arg2="123.000" ignoreCase="true" condition="&lt;=">
+			<echo>Condition satisfied</echo>
+		</generalCondition>
+
+		<generalCondition arg1="123" arg2="123.000" condition="=">
+			<echo>Condition satisfied</echo>
+		</generalCondition>
+
+		<generalCondition arg1="123" arg2="123.000" ignoreCase="true" condition="&lt;=">
+			<echo>Condition satisfied</echo>
+		</generalCondition>
+
+		<generalCondition arg1="${testArray.hasAnyValues}" arg2="true" ignoreCase="true" condition="=">
+			<generalArrayLoop arrayName="testArray" elementPropertyName="value" indexPropertyName="index">
+				<echo>index=${index}, value=${value}</echo>
+			</generalArrayLoop>
+		</generalCondition>
+
+	</target>
+
+</project>

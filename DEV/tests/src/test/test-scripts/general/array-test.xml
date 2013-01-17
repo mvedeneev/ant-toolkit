@@ -1,0 +1,39 @@
+<project name="Array test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+			<generalInitArray arrayName="testArray" file="test_array.txt"
+							  separatorPattern="\n" trimValues="true"
+							  removeEmptyValues="true" arrayLengthProperty="testArray.length"/>
+
+			<echo>Array length=${testArray.length}</echo>
+
+			<generalClearArray arrayName="testArray"/>
+
+			<echo>testArray</echo>
+			<generalInitArray arrayName="testArray" array="a,b,c,d,e,f,g,h"/>
+			<generalArrayLoop arrayName="testArray" elementPropertyName="value" indexPropertyName="index">
+				<echo>index=${index}, value=${value}</echo>
+			</generalArrayLoop>
+
+			<generalGetArrayElement arrayName="testArray" index="2" propertyName="value"/>
+			<echo>value=${value}</echo>
+
+			<echo>testArray1</echo>
+			<generalInitArray arrayName="testArray1" file="test_array.txt" separatorPattern="\n"
+								removeEmptyValues="true" arrayLengthProperty="testArray1.length"/>
+			<generalArrayLoop arrayName="testArray1" elementPropertyName="value" indexPropertyName="index">
+				<echo>index=${index}, value=${value}</echo>
+			</generalArrayLoop>
+
+			<echo>testArray2</echo>
+			<generalInitArray arrayName="testArray2" array=""/>
+			<generalArrayLoop arrayName="testArray2" elementPropertyName="value" indexPropertyName="index">
+				<echo>index=${index}, value=${value}</echo>
+			</generalArrayLoop>
+
+	</target>
+
+</project>

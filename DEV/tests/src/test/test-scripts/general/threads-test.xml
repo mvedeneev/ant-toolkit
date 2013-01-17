@@ -1,0 +1,178 @@
+<project name="Threads test" default="test-threads" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<property name="threadsNumber" value="5"/>
+    <property name="threadLoopIterations" value="5"/>
+    <property name="threadMinSleep" value="100"/>
+    <property name="threadMaxSleep" value="700"/>
+	<property name="threadsLogDir" value="${basedir}\thread-test"/>
+
+	<target name="clean">
+        <echo>${threadsLogDir}</echo>
+
+		<delete dir="${basedir}/thread-test" includeemptydirs="true" />
+		<mkdir dir="${basedir}/thread-test"/>
+	</target>
+
+    <target name="test-threads" depends="clean">
+
+        <generalCompoundPropertyResolver/>
+
+        <generalCreateCyclicBarrier name="cyclicBarrier" parties="${threadsNumber}"/>
+
+        <generalForLoop from="1" to="${threadsNumber}" counterProperty="iteration">
+
+            <generalStartThread name="thread-${iteration}" group="threadsGroup" cyclicBarrier="cyclicBarrier" logFile="${threadsLogDir}\thread-${iteration}.log">
+
+                <generalGetThreadInfo nameProperty="threadLocal:threadName" logFileProperty="threadLocal:logFile"/>
+
+                <generalForLoop from="1" to="${threadLoopIterations}" counterProperty="threadLocal:iteration">
+
+                    <generalTimeStamp>
+                        <format property="threadLocal:timeStamp" pattern="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"/>
+                    </generalTimeStamp>
+
+                    <generalProperty name="message" threadLocal="true" value="[${threadLocal:threadName}] [${threadLocal:timeStamp}] start iteration ${threadLocal:iteration}"/>
+
+                    <echo>${message}</echo>
+
+                    <echo file="${threadLocal:logFile}" append="true">${message}</echo>
+                    <echo file="${threadLocal:logFile}" append="true"></echo>
+                    <echo file="${threadLocal:logFile}" append="true">[${threadLocal:threadName}]  Do some work...</echo>
+                    <echo file="${threadLocal:logFile}" append="true"></echo>
+
+                    <generalGenerateRandomInteger min="${threadMinSleep}" max="${threadMaxSleep}" propertyName="threadLocal:sleepTimeout"/>
+
+                    <echo file="${threadLocal:logFile}" append="true">[${threadLocal:threadName}]  Sleeping for ${threadLocal:sleepTimeout}ms</echo>
+                    <echo file="${threadLocal:logFile}" append="true"></echo>
+
+                    <sleep milliseconds="${threadLocal:sleepTimeout}"/>
+
+                    <!-- imitate failure -->
+                    <fail message="Hello world">
+                   		<condition>
+                            <or>
+                                <equals arg1="${threadLocal:threadName}" arg2="thread-1"/>
+                                <equals arg1="${threadLocal:threadName}" arg2="thread-12"/>
+                                <equals arg1="${threadLocal:threadName}" arg2="thread-45"/>
+                                <equals arg1="${threadLocal:threadName}" arg2="thread-123"/>
+                            </or>
+                   		</condition>
+                   	</fail>
+
+                </generalForLoop>
+
+            </generalStartThread>
+
+        </generalForLoop>
+
+        <echo>Waiting for threads to complete...</echo>
+        <generalWaitThread group="threadsGroup" failonany="true"/>
+
+    </target>
+
+	<target name="test-cyclic-barrier-wait" depends="clean">
+
+		 <generalCompoundPropertyResolver/>
+
+		 <generalCreateCyclicBarrier name="cyclicBarrier" parties="${threadsNumber}"/>
+
+		 <generalForLoop from="1" to="${threadsNumber}" counterProperty="iteration">
+
+			 <generalStartThread name="thread-${iteration}" group="threadsGroup" cyclicBarrier="cyclicBarrier" logFile="${threadsLogDir}\thread-${iteration}.log">
+
+				 <generalGetThreadInfo nameProperty="threadLocal:threadName" logFileProperty="threadLocal:logFile"/>
+
+				 <generalForLoop from="1" to="${threadLoopIterations}" counterProperty="threadLocal:iteration">
+
+					 <generalGenerateRandomInteger min="${threadMinSleep}" max="${threadMaxSleep}" propertyName="threadLocal:sleepTimeout"/>
+
+					 <sleep milliseconds="${threadLocal:sleepTimeout}"/>
+
+					 <generalWaitCyclicBarrier name="cyclicBarrier"/>
+
+					 <generalTimeStamp>
+						 <format property="threadLocal:timeStamp" pattern="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"/>
+					 </generalTimeStamp>
+
+					 <generalProperty name="message" threadLocal="true" value="[${threadLocal:threadName}] [${threadLocal:timeStamp}] start iteration ${threadLocal:iteration}"/>
+
+					 <echo>${message}</echo>
+
+					 <echo file="${threadLocal:logFile}" append="true">${message}</echo>
+					 <echo file="${threadLocal:logFile}" append="true"></echo>
+					 <echo file="${threadLocal:logFile}" append="true">[${threadLocal:threadName}]  Do some work...</echo>
+					 <echo file="${threadLocal:logFile}" append="true"></echo>
+
+					 <!-- imitate failure -->
+	<!--
+					 <fail message="Hello world">
+							<condition>
+							 <or>
+								 <equals arg1="${threadLocal:threadName}" arg2="thread-1"/>
+								 <equals arg1="${threadLocal:threadName}" arg2="thread-12"/>
+								 <equals arg1="${threadLocal:threadName}" arg2="thread-45"/>
+								 <equals arg1="${threadLocal:threadName}" arg2="thread-123"/>
+							 </or>
+							</condition>
+						</fail>
+	-->
+
+				 </generalForLoop>
+
+			 </generalStartThread>
+
+		 </generalForLoop>
+
+		 <echo>Waiting for threads to complete...</echo>
+		 <generalWaitThread group="threadsGroup" failonany="true"/>
+
+ 	</target>
+
+	<target name="test-synchronization-section" depends="clean">
+
+     <generalCompoundPropertyResolver/>
+
+     <generalCreateCyclicBarrier name="cyclicBarrier" parties="${threadsNumber}"/>
+
+     <generalForLoop from="1" to="${threadsNumber}" counterProperty="iteration">
+
+         <generalStartThread name="thread-${iteration}" group="threadsGroup" cyclicBarrier="cyclicBarrier" logFile="${threadsLogDir}\thread-${iteration}.log">
+
+             <generalGetThreadInfo nameProperty="threadLocal:threadName" logFileProperty="threadLocal:logFile"/>
+
+             <generalForLoop from="1" to="${threadLoopIterations}" counterProperty="threadLocal:iteration">
+
+				 <generalSynchronizationSection sectionName="synchSection">
+
+					<generalTimeStamp>
+						<format property="threadLocal:timeStamp" pattern="dd.MM.yyyy hh:mm:ss:SS" locale="ru,RU"/>
+					</generalTimeStamp>
+
+					<generalProperty name="message" threadLocal="true" value="[${threadLocal:threadName}] [${threadLocal:timeStamp}] start iteration ${threadLocal:iteration}"/>
+
+					<echo>${message}</echo>
+
+					<echo file="${threadLocal:logFile}" append="true">${message}</echo>
+					<echo file="${threadLocal:logFile}" append="true"></echo>
+					<echo file="${threadLocal:logFile}" append="true">[${threadLocal:threadName}]  Do some work...</echo>
+					<echo file="${threadLocal:logFile}" append="true"></echo>
+
+
+					<sleep milliseconds="${threadMaxSleep}"/>
+
+				 </generalSynchronizationSection>
+
+             </generalForLoop>
+
+         </generalStartThread>
+
+     </generalForLoop>
+
+     <echo>Waiting for threads to complete...</echo>
+     <generalWaitThread group="threadsGroup" failonany="true"/>
+
+ </target>
+
+</project>

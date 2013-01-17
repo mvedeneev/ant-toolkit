@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../DEV/tests">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../DEV/tests/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../DEV/tests/src/test/resources" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="activation" level="project" />
+    <orderEntry type="library" name="ant" level="project" />
+    <orderEntry type="library" name="aspectj" level="project" />
+    <orderEntry type="library" name="castor" level="project" />
+    <orderEntry type="library" name="commons" level="project" />
+    <orderEntry type="library" name="documentum" level="project" />
+    <orderEntry type="library" name="jaxb" level="project" />
+    <orderEntry type="library" name="jsch" level="project" />
+    <orderEntry type="library" name="log4j" level="project" />
+    <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="oracle" level="project" />
+    <orderEntry type="library" name="rsa" level="project" />
+    <orderEntry type="library" name="serializer" level="project" />
+    <orderEntry type="library" name="xalan" level="project" />
+    <orderEntry type="module" module-name="documentum-tasks" />
+    <orderEntry type="module" module-name="general-tasks" />
+    <orderEntry type="module" module-name="sql-tasks" />
+    <orderEntry type="module" module-name="svn-tasks" />
+  </component>
+</module>
+

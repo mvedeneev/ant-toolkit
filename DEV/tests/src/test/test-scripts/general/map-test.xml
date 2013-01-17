@@ -1,0 +1,33 @@
+<project name="Map test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<generalInitMap mapName="testMap" file="test_map.txt">
+			<entry key="aaa" value="bbb"/>
+			<entry key="aaa1" value="bbb2"/>
+			<entry key="aaa2" value="bbb2"/>
+		</generalInitMap>
+
+		<generalGetMapElement mapName="testMap" key="aaa" propertyName="value"/>
+		<echo>${value}</echo>
+
+		<generalPutMapElement mapName="testMap" key="QWERTY" value="1234567890"/>
+
+		<generalGetRandomMapElement mapName="testMap" keyProperty="key" valueProperty="value"/>
+		<echo>Random element - ${key}:${value}</echo>
+
+		<generalCheckMapContainsKey mapName="testMap" key="MMMMMM" property="containsKey"/>
+		<echo>Contains key "MMMMMM" - ${containsKey}</echo>
+
+		<generalCheckMapContainsKey mapName="testMap" key="aaa" property="containsKey"/>
+		<echo>Contains key "aaa" - ${containsKey}</echo>
+
+		<generalMapLoop mapName="testMap" keyPropertyName="key" valuePropertyName="value">
+			<echo>${key}:${value}</echo>
+		</generalMapLoop>
+
+	</target>
+
+</project>

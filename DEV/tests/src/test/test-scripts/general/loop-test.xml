@@ -1,0 +1,13 @@
+<project name="Loop test" default="test" basedir=".">
+
+	<import file="../ant-toolkit-taskdefs.xml"/>
+
+	<target name="test">
+
+		<generalForLoop from="0" to="20" counterProperty="counter">
+			<echo>Iteration - ${counter}</echo>
+		</generalForLoop>
+
+	</target>
+
+</project>

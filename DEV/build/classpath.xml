@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="classpath-defenitions" basedir=".">
+
+	<property file="build.properties"/>
+
+	<path id="documentum">
+        <pathelement location="${bofirm.jar}"/>
+		<pathelement location="${bpm_infra.jar}"/>
+		<pathelement location="${bpmutil.jar}"/>
+		<pathelement location="${configservice-api.jar}"/>
+		<pathelement location="${configservice-impl.jar}"/>
+		<pathelement location="${DDS.jar}"/>
+		<pathelement location="${dfc.jar}"/>
+		<pathelement location="${workflow.jar}"/>
+	</path>
+
+	<path id="apache-ant">
+		<pathelement location="${ant.jar}"/>
+	</path>
+
+	<path id="apache-commons">
+		<pathelement location="${commons-jxpath.jar}"/>
+		<pathelement location="${commons-lang.jar}"/>
+		<pathelement location="${commons-logging.jar}"/>
+	</path>
+
+	<path id="apache-log4j">
+		<pathelement location="${log4j.jar}"/>
+	</path>
+
+	<path id="apache-serializer">
+		<pathelement location="${serializer.jar}"/>
+	</path>
+
+	<path id="apache-xalan">
+		<pathelement location="${xalan.jar}"/>
+	</path>
+
+	<path id="activation">
+		<pathelement location="${activation.jar}"/>
+	</path>
+
+	<path id="aspectj">
+		<pathelement location="${aspectjrt.jar}"/>
+	</path>
+
+	<path id="castor">
+		<pathelement location="${castor.jar}"/>
+	</path>
+
+	<path id="jaxb">
+		<pathelement location="${jaxb-api.jar}"/>
+	</path>
+
+	<path id="rsa">
+		<pathelement location="${certjFIPS.jar}"/>
+		<pathelement location="${jsafeFIPS.jar}"/>
+	</path>
+
+	<path id="mail">
+		<pathelement location="${mail.jar}"/>
+	</path>
+
+	<path id="oracle-jdbc">
+		<pathelement location="${ojdbc5.jar}"/>
+	</path>
+
+	<path id="jsch">
+		<pathelement location="${jsch.jar}"/>
+	</path>
+
+</project>
